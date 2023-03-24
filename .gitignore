@@ -1,3 +1,7 @@
-
+notebook/data/anime.csv
+artifacts/anime.csv
 .idea/
 mr_venv/
+logs
+src/__pycache__/
+ML_Project_Template.egg-info/
