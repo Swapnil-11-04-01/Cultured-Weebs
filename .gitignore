@@ -1,7 +1,8 @@
 notebook/data/anime.csv
-artifacts/anime.csv
+artifacts/
 .idea/
 mr_venv/
 logs
 src/__pycache__/
+src/components/__pycache__/
 ML_Project_Template.egg-info/
