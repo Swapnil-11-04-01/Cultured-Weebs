@@ -42,7 +42,7 @@ class DataTransformation:
         data.loc[(data['status'] == 'Currently Airing') & (data['end_date'].isnull()), 'end_date'] = '-'
         data.dropna(inplace=True)
         data.drop_duplicates(inplace=True)
-        data = data[(data['score'] >= 6) & (data['synopsis'].str.split().str.len() >= 20)]
+        data = data[(data['score'] >= 7.5) & (data['synopsis'].str.split().str.len() >= 20)]
         data.reset_index(inplace=True, drop=True)
         return data
 
@@ -75,14 +75,15 @@ class DataTransformation:
             data_new['cat_vector'] = data_new['cat_vector'].apply(self.preprocess_text)
             data_new.to_csv("artifacts/data_transformed.csv", index=False, header=True)
 
-            tfidf = TfidfVectorizer()
-            name = 'tfidf'
-            tfidf_matrix = tfidf.fit_transform(data_new['cat_vector'])
-            vector = tfidf_matrix.toarray()
+            # tfidf = TfidfVectorizer()
+            # name = 'tfidf'
+            # tfidf_matrix = tfidf.fit_transform(data_new['cat_vector'])
+            # vector = tfidf_matrix.toarray()
 
-            # cv = CountVectorizer(max_features=500)
-            # name = 'bow'
-            # vector = cv.fit_transform(data_new['cat_vector']).toarray()
+            cv = CountVectorizer(max_features=20000)
+            name = 'bow'
+            vector = cv.fit_transform(data_new['cat_vector']).toarray()
+
             return vector, name
         except Exception as e:
             raise CustomException(e, sys)

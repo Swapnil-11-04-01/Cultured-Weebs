@@ -27,7 +27,7 @@ class PredictPipeline:
                            'start_date': [],
                            'end_date': []}
             print(data.shape, data_transformed.shape)
-            for dist in distances[1:21]:
+            for dist in distances[:11]:
                 anime_id = data_transformed.iloc[dist[0]].anime_id
                 result_dict['title'].append(data.loc[data['anime_id'] == anime_id, ['title']].iloc[0, 0])
                 result_dict['pic_url'].append(main_pic_linker(data, anime_id))
