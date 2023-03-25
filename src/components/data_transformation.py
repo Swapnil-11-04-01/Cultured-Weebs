@@ -80,7 +80,7 @@ class DataTransformation:
             # tfidf_matrix = tfidf.fit_transform(data_new['cat_vector'])
             # vector = tfidf_matrix.toarray()
 
-            cv = CountVectorizer(max_features=1000)
+            cv = CountVectorizer(max_features=10000)
             name = 'bow'
             vector = cv.fit_transform(data_new['cat_vector']).toarray()
 
