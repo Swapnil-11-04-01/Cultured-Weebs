@@ -6,7 +6,7 @@ Link - http://culturedweebs-env-1.eba-dbmc36mu.us-east-1.elasticbeanstalk.com/
 
 
 
-### Resources Used:-
+## Resources Used:-
 - **Programming language** -> `Python`
 - **Web-Framework** -> `Streamlit`
 - **Data Source Website** -> https://myanimelist.net/
@@ -16,7 +16,7 @@ Link - http://culturedweebs-env-1.eba-dbmc36mu.us-east-1.elasticbeanstalk.com/
 
 
 
-# Steps To Run Locally (Windows):
+## Steps To Run Locally (Windows):
 1. Clone the repository: 
    ```
    git clone https://github.com/Swapnil-11-04-01/Cultured-Weebs.git
