@@ -3,7 +3,7 @@ import os
 from src.exception import CustomException
 from src.logger import logging
 from src.components.data_transformation import DataTransformation
-from src.utils import cosine_similarity_matrix
+from src.utils import cosine_similarity_matrix, load_object
 import pandas as pd
 from dataclasses import dataclass
 
@@ -26,15 +26,12 @@ class DataIngestion:
             raise CustomException(e, sys)
 
 
-# if __name__ == "__main__":
-    # data_obj = DataIngestion()
-    # dataframe = data_obj.initiate_data_ingestion()
-    #
-    # data_transformation = DataTransformation()
-    # transformed_dataframe, vector = data_transformation.initialize_data_transformation(dataframe)
-    #
-    # similarity = cosine_similarity_matrix(vector)
-    # print(similarity)
+if __name__ == "__main__":
+    data_obj = DataIngestion()
+    data = data_obj.initiate_data_ingestion()
+    data_transformed = pd.read_csv("artifacts/data_transformed.csv")
+    # DataTransformer = DataTransformation()
+    # data_transformed, _ = DataTransformer.initialize_data_transformation(data)
 
 
-    # print(madel_name, result)
+    print(data_transformed.shape)
