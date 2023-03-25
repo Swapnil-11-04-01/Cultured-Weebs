@@ -4,5 +4,6 @@ artifacts/
 mr_venv/
 logs
 src/__pycache__/
+src/pipeline/__pycache__/
 src/components/__pycache__/
 ML_Project_Template.egg-info/
