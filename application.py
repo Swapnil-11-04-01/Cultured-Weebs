@@ -8,29 +8,8 @@ from io import BytesIO
 import requests
 import base64
 
-st.set_page_config(page_title="Cultured Weebs", page_icon=":smiley:", layout="wide", menu_items={
-    'Get Help': None,
-    'Report a bug': None,
-    'About': 'Swapnil Sharma - https://swapnil-11-04-01.github.io/Personal-Portfolio/'})
 
-try:
-    data = pd.read_csv("artifacts/anime.csv", delimiter='\t')
-    data_transformed = pd.read_csv("artifacts//data_transformed.csv")
-    # similarity_matrix_tfidf = load_object("artifacts/similarity_matrix_tfidf.pkl")
-    similarity_matrix_bow = load_object("artifacts/similarity_matrix_bow.pkl")
-    print('try')
-
-except:
-    TrainPipeline.initiate_train_pipeline()
-
-    data = pd.read_csv("artifacts/anime.csv", delimiter='\t')
-    data_transformed = pd.read_csv("artifacts//data_transformed.csv")
-    # similarity_matrix_tfidf = load_object("artifacts/similarity_matrix_tfidf.pkl")
-    similarity_matrix_bow = load_object("artifacts/similarity_matrix_bow.pkl")
-    print('except')
-
-
-def recommend(anime):
+def recommend(anime, data, data_transformed, similarity_matrix_bow):
     result = PredictPipeline.predict(anime, data, data_transformed, similarity_matrix_bow)
     # print(result['title'])
     return (result['title'],
@@ -73,10 +52,10 @@ def add_bg_from_local(image_file):
     )
 
 
-def display_recommendations(anime):
+def display_recommendations(anime, data, data_transformed, similarity_matrix_bow):
     print(anime)
     titles, posters, synopses, genres, studios, types, num_episodes, statuses, scores, start_dates, end_dates = recommend(
-        anime)
+        anime, data, data_transformed, similarity_matrix_bow)
     for i in range(11):
         if i == 0:
             _, pic, info = st.columns([2, 3.5, 4])
@@ -143,18 +122,45 @@ def display_recommendations(anime):
                     st.title(" ")
 
 
-add_bg_from_local('templates/wallpaper/1.jpg')
+def application():
+    st.set_page_config(page_title="Cultured Weebs", page_icon=":smiley:", layout="wide", menu_items={
+        'Get Help': None,
+        'Report a bug': None,
+        'About': 'Swapnil Sharma - https://swapnil-11-04-01.github.io/Personal-Portfolio/'})
 
-st.write('# <div style="text-align: center; font-size: 2.7em; font-family: cursive; margin-bottom: 0.7em"><I>\`Cultured '
-         'Weebs\`</div>'
-         , unsafe_allow_html=True)
+    try:
+        data = pd.read_csv("artifacts/anime.csv", delimiter='\t')
+        data_transformed = pd.read_csv("artifacts//data_transformed.csv")
+        # similarity_matrix_tfidf = load_object("artifacts/similarity_matrix_tfidf.pkl")
+        similarity_matrix_bow = load_object("artifacts/similarity_matrix_bow.pkl")
+        print('try')
 
-st.subheader('Anime Recommendation System  : `7.5+ MAL Ratings`')
-anime_list = data_transformed['title'].values
-selected_movie = st.selectbox(
-    "Type or select a movie from the dropdown",
-    anime_list
-)
+    except:
+        TrainPipeline.initiate_train_pipeline()
 
-if st.button('Show Recommendation'):
-    display_recommendations(selected_movie)
+        data = pd.read_csv("artifacts/anime.csv", delimiter='\t')
+        data_transformed = pd.read_csv("artifacts//data_transformed.csv")
+        # similarity_matrix_tfidf = load_object("artifacts/similarity_matrix_tfidf.pkl")
+        similarity_matrix_bow = load_object("artifacts/similarity_matrix_bow.pkl")
+        print('except')
+
+    add_bg_from_local('templates/wallpaper/1.jpg')
+
+    st.write(
+        '# <div style="text-align: center; font-size: 2.7em; font-family: cursive; margin-bottom: 0.7em"><I>'
+        '\`Cultured Weebs\`</div>',
+        unsafe_allow_html=True)
+
+    st.subheader('Anime Recommendation System  : `7.5+ MAL Ratings`')
+    anime_list = data_transformed['title'].values
+    selected_movie = st.selectbox(
+        "Type or select a movie from the dropdown",
+        anime_list
+    )
+
+    if st.button('Show Recommendation'):
+        display_recommendations(selected_movie, data, data_transformed, similarity_matrix_bow)
+
+
+if __name__ == '__main__':
+    application()
