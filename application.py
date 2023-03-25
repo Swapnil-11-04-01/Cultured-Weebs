@@ -11,28 +11,35 @@ import requests
 
 data_obj = DataIngestion()
 data = data_obj.initiate_data_ingestion()
-
-try:
-    data_transformed = pd.read_csv("artifacts/data_transformed.csv")
-    similarity_matrix = load_object(file_path="artifacts/similarity_matrix.pkl")
-except:
-    data_obj = DataIngestion()
-    data = data_obj.initiate_data_ingestion()
-    DataTransformer = DataTransformation()
-    data_transformed = DataTransformer.initialize_data_transformation(data)
-    vector = load_object("artifacts/vector.pkl")
-    similarity_matrix = cosine_similarity_matrix(vector)
+DataTransformer = DataTransformation()
+data_transformed = DataTransformer.initialize_data_transformation(data)
+vector_tfidf = load_object("artifacts/vector_tfidf.pkl")
+vector_bow = load_object("artifacts/vector_bow.pkl")
+similarity_matrix_tfidf = cosine_similarity_matrix(vector_tfidf)
+similarity_matrix_bow = cosine_similarity_matrix(vector_bow)
+print('\n\nFile creation complete\n\n')
 
 
 def recommend(anime):
-    result = PredictPipeline.predict(anime, data, data_transformed, similarity_matrix)
-    print(result['title'])
-    return result['title'], result['pic_url'], result['synopsis']
+    result = PredictPipeline.predict(anime, data, data_transformed, similarity_matrix_tfidf)
+    # print(result['title'])
+    return (result['title'],
+            result['pic_url'],
+            result['synopsis'],
+            result['genres'],
+            result['studio'],
+            result['type'],
+            result['num_episodes'],
+            result['status'],
+            result['score'],
+            result['start_date'],
+            result['end_date'])
 
 
-st.set_page_config(page_title="My App", page_icon=":smiley:", layout="wide")
+st.set_page_config(page_title="Cultured Weebs", page_icon=":smiley:", layout="wide")
 
-st.header('Anime Recommender System')
+st.header('Cultured Weebs')
+st.subheader('Anime Recommender System')
 anime_list = data_transformed['title'].values
 selected_movie = st.selectbox(
     "Type or select a movie from the dropdown",
@@ -40,19 +47,30 @@ selected_movie = st.selectbox(
 )
 
 if st.button('Show Recommendation'):
-    recommended_anime_names, recommended_anime_posters, recommended_anime_synopsis = recommend(selected_movie)
-    for i in range(5):
+    titles, posters, synopses, genres, studios, types, num_episodes, statuses, scores, start_dates, end_dates = recommend(selected_movie)
+    for i in range(15):
         pic, title_synopsis = st.columns([2, 5])
         with pic:
-            url = recommended_anime_posters[i]
+            url = posters[i]
             response = requests.get(url)
             image = Image.open(BytesIO(response.content))
             # Resize the image
             resized_image = image.resize((400, 500))
             st.image(resized_image)
         with title_synopsis:
-            st.title(recommended_anime_names[i])
-            st.text_area(label="Synopsis",
-                         key=f"ta_{i}",
-                         height=300,
-                         value=recommended_anime_synopsis[i])
+            st.title(titles[i])
+            synopsis, rest = st.columns([2, 2])
+            with synopsis:
+                st.text_area(label="Synopsis",
+                             key=f"ta_{i}",
+                             height=320,
+                             value=synopses[i])
+            with rest:
+                st.markdown(f'### **More Info**')
+                st.markdown(f'- **TYPE :** *{types[i]}*')
+                st.markdown(f'- **EPISODES :** *{num_episodes[i]}*')
+                st.markdown(f'- **GENRES :** *{genres[i]}*')
+                st.markdown(f'- **STUDIO :** *{studios[i]}*')
+                st.markdown(f'- **RATING :** *{scores[i]}*')
+                st.markdown(f'- **STATUS :** *{statuses[i]}*')
+                st.markdown(f'- **AIRED :** *{start_dates[i]}* to *{end_dates[i]}*')

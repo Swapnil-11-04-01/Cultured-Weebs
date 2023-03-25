@@ -24,9 +24,11 @@ class PredictPipeline:
                            'type': [],
                            'num_episodes': [],
                            'status': [],
-                           'score': []}
+                           'score': [],
+                           'start_date': [],
+                           'end_date': []}
             print(data.shape, data_transformed.shape)
-            for dist in distances[1:6]:
+            for dist in distances[1:16]:
                 anime_id = data_transformed.iloc[dist[0]].anime_id
                 result_dict['title'].append(data.loc[data['anime_id'] == anime_id, ['title']].iloc[0, 0])
                 result_dict['pic_url'].append(main_pic_linker(data, anime_id))
@@ -37,7 +39,9 @@ class PredictPipeline:
                 result_dict['num_episodes'].append(data.loc[data['anime_id'] == anime_id, ['num_episodes']].iloc[0, 0])
                 result_dict['status'].append(data.loc[data['anime_id'] == anime_id, ['status']].iloc[0, 0])
                 result_dict['score'].append(data.loc[data['anime_id'] == anime_id, ['score']].iloc[0, 0])
-            print(result_dict)
+                result_dict['start_date'].append(data.loc[data['anime_id'] == anime_id, ['start_date']].iloc[0, 0])
+                result_dict['end_date'].append(data.loc[data['anime_id'] == anime_id, ['end_date']].iloc[0, 0])
+            # print(result_dict)
             return result_dict
         except Exception as e:
             raise CustomException(e, sys)
