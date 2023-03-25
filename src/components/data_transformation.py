@@ -7,7 +7,6 @@ from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 import re
 from src.exception import CustomException
-from src.utils import save_object
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 
@@ -77,14 +76,13 @@ class DataTransformation:
             data_new.to_csv("artifacts/data_transformed.csv", index=False, header=True)
 
             tfidf = TfidfVectorizer()
+            name = 'tfidf'
             tfidf_matrix = tfidf.fit_transform(data_new['cat_vector'])
-            vector_tfidf = tfidf_matrix.toarray()
+            vector = tfidf_matrix.toarray()
 
-            cv = CountVectorizer(max_features=500)
-            vector_bow = cv.fit_transform(data_new['cat_vector']).toarray()
-
-            # save_object("artifacts/vector_tfidf.pkl", vector_tfidf)
-            # save_object("artifacts/vector_bow.pkl", vector_bow)
-            return vector_tfidf, vector_bow
+            # cv = CountVectorizer(max_features=500)
+            # name = 'bow'
+            # vector = cv.fit_transform(data_new['cat_vector']).toarray()
+            return vector, name
         except Exception as e:
             raise CustomException(e, sys)

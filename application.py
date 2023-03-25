@@ -11,7 +11,7 @@ try:
     data = pd.read_csv("artifacts/anime.csv", delimiter='\t')
     data_transformed = pd.read_csv("artifacts//data_transformed.csv")
     similarity_matrix_tfidf = load_object("artifacts/similarity_matrix_tfidf.pkl")
-    similarity_matrix_bow = load_object("artifacts/similarity_matrix_bow.pkl")
+    # similarity_matrix_bow = load_object("artifacts/similarity_matrix_bow.pkl")
     print('try')
 except:
     TrainPipeline.initiate_train_pipeline()
@@ -19,7 +19,7 @@ except:
     data = pd.read_csv("artifacts/anime.csv", delimiter='\t')
     data_transformed = pd.read_csv("artifacts//data_transformed.csv")
     similarity_matrix_tfidf = load_object("artifacts/similarity_matrix_tfidf.pkl")
-    similarity_matrix_bow = load_object("artifacts/similarity_matrix_bow.pkl")
+    # similarity_matrix_bow = load_object("artifacts/similarity_matrix_bow.pkl")
     print('except')
 
 
