@@ -1,5 +1,5 @@
 notebook/data/anime.csv
-artifacts/anime.csv
+
 artifacts/data_transformed.csv
 artifacts/similarity_matrix_bow.pkl
 artifacts/similarity_matrix_tfidf.pkl
