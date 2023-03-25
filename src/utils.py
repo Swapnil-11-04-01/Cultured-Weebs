@@ -28,7 +28,6 @@ def load_object(file_path):
 def cosine_similarity_matrix(matrix, name):
     similarity_matrix = cosine_similarity(matrix)
     save_object(f"artifacts/similarity_matrix_{name}.pkl", similarity_matrix)
-    return similarity_matrix
 
 
 def main_pic_linker(df, anime_id):

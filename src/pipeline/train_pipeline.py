@@ -25,7 +25,7 @@ class TrainPipeline:
             # vector_tfidf = load_object("artifacts/vector_tfidf.pkl")
             # vector_bow = load_object("artifacts/vector_bow.pkl")
 
-            similarity_matrix_tfidf = cosine_similarity_matrix(vector, name)
+            cosine_similarity_matrix(vector, name)
             # similarity_matrix_bow = cosine_similarity_matrix(vector_bow, "bow")
 
             # save_object("artifacts/similarity_matrix_tfidf.pkl", similarity_matrix_tfidf)
