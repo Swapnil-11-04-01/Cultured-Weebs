@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 from src.pipeline.predict_pipeline import PredictPipeline
 from src.components.data_ingestion import DataIngestion
 from src.components.data_transformation import DataTransformation
@@ -38,8 +37,10 @@ def recommend(anime):
 
 st.set_page_config(page_title="Cultured Weebs", page_icon=":smiley:", layout="wide")
 
-st.header('Cultured Weebs')
-st.subheader('Anime Recommender System')
+st.write('# <div style="text-align: center; font-size: 3em; font-family: Script; margin-bottom: 0.7em">Cultured '
+         'Weebs</div>', unsafe_allow_html=True)
+
+st.subheader('An Anime Recommendation System')
 anime_list = data_transformed['title'].values
 selected_movie = st.selectbox(
     "Type or select a movie from the dropdown",

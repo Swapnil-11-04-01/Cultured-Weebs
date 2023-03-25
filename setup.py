@@ -20,7 +20,7 @@ def get_requirements(file_path: str) -> List[str]:
 
 
 setup(
-    name='ML_Project_Template',
+    name='Cultured Weebs',
     version='0.0.1',
     author='Swapnil Sharma',
     author_email='swapnil.sharma.869.11@gmail.com',

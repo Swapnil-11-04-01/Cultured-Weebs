@@ -1,6 +1,5 @@
 import sys
 import os
-import pandas as pd
 from dataclasses import dataclass
 from src.logger import logging
 import nltk
@@ -11,6 +10,7 @@ from src.exception import CustomException
 from src.utils import save_object
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
+
 nltk.download('punkt')
 nltk.download('stopwords')
 
@@ -29,7 +29,7 @@ class DataTransformation:
         stemmer = PorterStemmer()
         stop_words = set(stopwords.words('english'))
         tokens = re.sub(r'[^\w\s]', '', text).lower()
-        tokens = nltk.word_tokenize(text.lower())
+        tokens = nltk.word_tokenize(tokens.lower())
         tokens = [word for word in tokens if word not in stop_words]
         stemmed_words = " ".join([stemmer.stem(word) for word in tokens])
         return stemmed_words
@@ -38,11 +38,12 @@ class DataTransformation:
     def data_cleaner(data):
         data = data.iloc[:, :15]
         data.drop(columns=['season'], axis=1, inplace=True)
+        data.drop(data[data['genres'].str.contains('Hentai')].index, inplace=True)
         data.loc[(data['status'] == 'Currently Airing') & (data['num_episodes'].isnull()), 'num_episodes'] = '-'
         data.loc[(data['status'] == 'Currently Airing') & (data['end_date'].isnull()), 'end_date'] = '-'
         data.dropna(inplace=True)
         data.drop_duplicates(inplace=True)
-        data = data = data[(data['score'] >= 7.5) & (data['synopsis'].str.split().str.len() >= 20)]
+        data = data[(data['score'] >= 7) & (data['synopsis'].str.split().str.len() >= 20)]
         data.reset_index(inplace=True, drop=True)
         return data
 
@@ -52,7 +53,6 @@ class DataTransformation:
         obj = obj.split('|')
         return obj
 
-    # @staticmethod
     def dataframe_modifier(self, dataframe):
         required_cols = ["anime_id", "title", "synopsis", "type", "studios", "genres"]
         df_new = dataframe[required_cols]

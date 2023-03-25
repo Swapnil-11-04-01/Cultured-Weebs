@@ -6,4 +6,4 @@ nltk
 requests
 bs4
 streamlit
-#-e .
+-e .
