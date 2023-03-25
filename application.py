@@ -116,7 +116,10 @@ def display_recommendations(anime, data, data_transformed, similarity_matrix_bow
                     st.markdown(f'- **STUDIO :** *{studios[i]}*')
                     st.markdown(f'- **RATING :** *{scores[i]}*')
                     st.markdown(f'- **STATUS :** *{statuses[i]}*')
-                    st.markdown(f'- **AIRED :** *{start_dates[i][:10]}*   to   *{end_dates[i][:10]}*')
+                    if statuses[i] == 'Currently Airing':
+                        st.markdown(f'- **AIRED :** *{start_dates[i][:10]}*   to   -')
+                    else:
+                        st.markdown(f'- **AIRED :** *{start_dates[i][:10]}*   to   *{end_dates[i][:10]}*')
                     st.title(" ")
                     st.title(" ")
                     st.title(" ")
