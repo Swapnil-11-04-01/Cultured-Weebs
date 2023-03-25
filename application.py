@@ -1,22 +1,26 @@
 import streamlit as st
+import pandas as pd
 from src.pipeline.predict_pipeline import PredictPipeline
-from src.components.data_ingestion import DataIngestion
-from src.components.data_transformation import DataTransformation
-from src.utils import cosine_similarity_matrix
+from src.pipeline.train_pipeline import TrainPipeline
 from src.utils import load_object
 from PIL import Image
 from io import BytesIO
 import requests
 
-data_obj = DataIngestion()
-data = data_obj.initiate_data_ingestion()
-DataTransformer = DataTransformation()
-data_transformed = DataTransformer.initialize_data_transformation(data)
-vector_tfidf = load_object("artifacts/vector_tfidf.pkl")
-vector_bow = load_object("artifacts/vector_bow.pkl")
-similarity_matrix_tfidf = cosine_similarity_matrix(vector_tfidf)
-similarity_matrix_bow = cosine_similarity_matrix(vector_bow)
-print('\n\nFile creation complete\n\n')
+try:
+    data = pd.read_csv("artifacts/anime.csv", delimiter='\t')
+    data_transformed = pd.read_csv("artifacts//data_transformed.csv")
+    similarity_matrix_tfidf = load_object("artifacts/similarity_matrix_tfidf.pkl")
+    similarity_matrix_bow = load_object("artifacts/similarity_matrix_bow.pkl")
+    print('try')
+except:
+    TrainPipeline.initiate_train_pipeline()
+
+    data = pd.read_csv("artifacts/anime.csv", delimiter='\t')
+    data_transformed = pd.read_csv("artifacts//data_transformed.csv")
+    similarity_matrix_tfidf = load_object("artifacts/similarity_matrix_tfidf.pkl")
+    similarity_matrix_bow = load_object("artifacts/similarity_matrix_bow.pkl")
+    print('except')
 
 
 def recommend(anime):
@@ -48,8 +52,9 @@ selected_movie = st.selectbox(
 )
 
 if st.button('Show Recommendation'):
-    titles, posters, synopses, genres, studios, types, num_episodes, statuses, scores, start_dates, end_dates = recommend(selected_movie)
-    for i in range(15):
+    titles, posters, synopses, genres, studios, types, num_episodes, statuses, scores, start_dates, end_dates = recommend(
+        selected_movie)
+    for i in range(20):
         pic, title_synopsis = st.columns([2, 5])
         with pic:
             url = posters[i]

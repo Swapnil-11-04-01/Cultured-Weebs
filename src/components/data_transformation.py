@@ -43,7 +43,7 @@ class DataTransformation:
         data.loc[(data['status'] == 'Currently Airing') & (data['end_date'].isnull()), 'end_date'] = '-'
         data.dropna(inplace=True)
         data.drop_duplicates(inplace=True)
-        data = data[(data['score'] >= 7) & (data['synopsis'].str.split().str.len() >= 20)]
+        data = data[(data['score'] >= 6) & (data['synopsis'].str.split().str.len() >= 20)]
         data.reset_index(inplace=True, drop=True)
         return data
 
@@ -83,8 +83,8 @@ class DataTransformation:
             cv = CountVectorizer(max_features=500)
             vector_bow = cv.fit_transform(data_new['cat_vector']).toarray()
 
-            save_object("artifacts/vector_tfidf.pkl", vector_tfidf)
-            save_object("artifacts/vector_bow.pkl", vector_bow)
-            return data_new
+            # save_object("artifacts/vector_tfidf.pkl", vector_tfidf)
+            # save_object("artifacts/vector_bow.pkl", vector_bow)
+            return vector_tfidf, vector_bow
         except Exception as e:
             raise CustomException(e, sys)

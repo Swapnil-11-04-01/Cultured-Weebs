@@ -25,9 +25,9 @@ def load_object(file_path):
         raise CustomException(e, sys)
 
 
-def cosine_similarity_matrix(matrix):
+def cosine_similarity_matrix(matrix, name):
     similarity_matrix = cosine_similarity(matrix)
-    save_object("artifacts/similarity_matrix.pkl", similarity_matrix)
+    save_object(f"artifacts/similarity_matrix_{name}.pkl", similarity_matrix)
     return similarity_matrix
 
 
