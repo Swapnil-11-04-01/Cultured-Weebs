@@ -89,7 +89,7 @@ def display_recommendations(anime, data, data_transformed, similarity_matrix_bow
                 st.title(" ")
                 st.title(" ")
                 st.title(" ")
-            st.markdown("#### Recommenndattions:")
+            st.markdown("#### Recommendations:")
             st.title(" ")
 
         else:
