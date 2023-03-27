@@ -160,7 +160,7 @@ def application():
     st.subheader('Anime Recommendation System  : `7.5+ MAL Ratings`')
     anime_list = data_transformed['title'].values
     selected_movie = st.selectbox(
-        "Type or select a movie from the dropdown",
+        "Type or select an anime from the dropdown",
         anime_list
     )
 
