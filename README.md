@@ -2,7 +2,7 @@
  
 Cultured Weebs is an Anime Recommendation System which recommends 10 similiar animes to the the selected one.
 
-Link - http://culturedweebs-env-1.eba-dbmc36mu.us-east-1.elasticbeanstalk.com/](https://cultured-weebs.onrender.com/
+Link - https://cultured-weebs.onrender.com/
 
 
 
